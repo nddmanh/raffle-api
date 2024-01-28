@@ -1,10 +1,10 @@
 @startuml
 
-actor        Client         as C  #FF0000/FFFF00
-participant  Web            as W  #f1c40f
-participant  Router         as R  #27ae60
-participant  Ticket_Service as S  #16a085
-database     Database       as DB #2980b9
+actor        Client          as C  #FF0000/FFFF00
+participant  Web             as W  #f1c40f
+participant  Router          as R  #27ae60
+participant  Deposit_Service as S  #16a085
+database     Database        as DB #2980b9
 
 group Client Lock Token
 C   ->  W    :  Lock token
