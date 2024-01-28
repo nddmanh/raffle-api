@@ -25,6 +25,6 @@ Some complicated flows in this project
 
 ![This is an alt text.](/images/flow-lock-token.png "This is a sample image.")
 
-### Flow with draw
+### Flow withdraw token
 
 ![This is an alt text.](/images/flow-withdraw-token.png "This is a sample image.")
