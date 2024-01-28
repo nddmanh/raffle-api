@@ -1,0 +1,24 @@
+@startuml
+
+actor        Client         as C  #FF0000/FFFF00
+participant  Web            as W  #f1c40f
+participant  Router         as R  #27ae60
+participant  Ticket_Service as S  #16a085
+database     Database       as DB #2980b9
+
+group Client Lock Token
+C   ->  W    :  Lock token
+W   ->  R    :  method: POST - /api/deposits
+R   ->  S    :  handle lock token
+S   ->  S    :  Calculate token
+S   ->  DB   :  Update token, deposit
+DB  --> S    :  Update successfully
+S   ->  DB   :  Insert new Deposits
+DB  --> S    :  Insert successfully
+S   --> R    :  return OK
+R   --> W    :  message: OK, data: {...}
+W   --> C    :  Lock token successfully
+end
+
+
+@enduml

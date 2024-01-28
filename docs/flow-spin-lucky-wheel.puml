@@ -1,0 +1,52 @@
+@startuml
+
+actor        Client         as C  #FF0000/FFFF00
+participant  Web            as W  #f1c40f
+participant  Router         as R  #27ae60
+participant  Ticket_Service as S  #16a085
+database     Database       as DB #2980b9
+
+group Client Buy Ticket
+C   ->  W    :  Buy tickets
+W   ->  R    :  method: POST - /api/tickets
+R   ->  S    :  handle buy ticket
+S   ->  S    :  Calculate tickets
+S   ->  DB   :  Insert new ticket
+DB  --> S    :  Insert successfully
+S   ->  S    :  Calculate point for User
+S   ->  DB   :  Update point to User
+DB  --> S    :  Update successfully
+S   --> R    :  return OK
+R   --> W    :  message: OK, data: {...}
+W   --> C    :  Buy ticket successfully
+end
+
+
+group Client Exchage Point
+C   ->  W    :  Exchage point
+W   ->  R    :  method: POST - /api/tickets/exchange
+R   ->  S    :  handle exchage point
+S   ->  S    :  Calculate point + spin of user
+S   ->  DB   :  Update user ( point + spin )
+DB  --> S    :  Update successfully
+S   --> R    :  return OK
+R   --> W    :  message: OK, data: {...}
+W   --> C    :  Exchage point successfully
+end
+
+
+group Client Spin Lucky Wheel
+C   ->  W    :  Spin
+W   ->  R    :  method: POST - /api/tickets/spin
+R   ->  S    :  handle spin
+S   ->  S    :  Random result
+S   ->  DB   :  Update user ( point + spin )
+DB  --> S    :  Update successfully
+S   ->  DB   :  Insert new raffle_draw
+DB  --> S    :  Insert successfully
+S   --> R    :  return result
+R   --> W    :  message: OK, data: {}
+W   --> C    :  Spin successfully
+end
+
+@enduml

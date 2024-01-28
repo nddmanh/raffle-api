@@ -1,0 +1,24 @@
+@startuml
+
+actor        Client         as C  #FF0000/FFFF00
+participant  Web            as W  #f1c40f
+participant  Router         as R  #27ae60
+participant  Ticket_Service as S  #16a085
+database     Database       as DB #2980b9
+
+group Client Withdraw Token
+C   ->  W    :  Withdraw token
+W   ->  R    :  method: POST - /api/deposits/withdraw
+R   ->  S    :  handle withdraw token
+S   ->  S    :  Calculate token
+S   ->  DB   :  Update token, deposit
+DB  --> S    :  Update successfully
+S   ->  DB   :  Delete Deposits
+DB  --> S    :  Delete successfully
+S   --> R    :  return OK
+R   --> W    :  message: OK, data: {...}
+W   --> C    :  Withdraw token successfully
+end
+
+
+@enduml

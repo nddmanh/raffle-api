@@ -1,0 +1,123 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// Preview: https://dbdiagram.io/d
+
+Table users {
+  id integer [primary key]
+  username varchar
+  firstname varchar
+  lastname varchar
+  email varchar
+  password varchar
+  role varchar
+  phone varchar
+  spin integer
+  point integer
+  refresh_token varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table tokens {
+  id integer [primary key]
+  wallet_id integer
+  token_name varchar
+  quantity integer
+  status varchar
+  balance integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table reward_histories {
+  id integer [primary key]
+  user_id integer
+  date timestamp
+  category text  [note: '["RAFFLELL", "LUCKY_WHEEL"]']
+  status varchar
+  season varchar
+  reward integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table deposits {
+  id integer [primary key]
+  wallet_id integer
+  token_id integer
+  quantity integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table memberships {
+  id integer [primary key]
+  user_id integer
+  name varchar
+  price integer
+  minted integer
+  remained integer
+  highest_bid integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table tickets {
+  id integer [primary key]
+  user_id integer
+  ticket_number integer
+  price integer
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table raffle_draws {
+  id integer [primary key]
+  user_id integer
+  ticket_id integer
+  score integer
+  reward integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table wallets {
+  id integer [primary key]
+  user_id integer
+  wallet_address varchar
+  type varchar
+  amount integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+
+Ref: tokens.wallet_id > wallets.id
+
+Ref: deposits.wallet_id > wallets.id
+
+Ref: deposits.token_id > tokens.id
+
+Ref: memberships.user_id > users.id
+
+Ref: reward_histories.user_id > users.id
+
+Ref: tickets.user_id > users.id
+
+Ref: raffle_draws.user_id > users.id
+
+Ref: raffle_draws.ticket_id > tickets.id
+
+Ref: wallets.user_id > users.id
+
+
+

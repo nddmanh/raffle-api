@@ -1,0 +1,1138 @@
+openapi: 3.0.3
+info:
+  title: Swagger rafflell - OpenAPI 3.0
+  description: API for rafflell
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+
+tags:
+  - name: auth
+    description: API Auth
+  - name: dashboard
+    description: API for Dashboard UI
+  - name: user
+    description: API for Account UI
+  - name: membership
+    description: API for Membership UI
+  - name: buy-rll
+    description: API for Buy RLL UI
+  - name: token-lock
+    description: API for Token Lock UI
+  - name: ticket
+    description: API for Tickets UI
+  - name: lucky-wheel
+    description: API for Lucky Wheel UI
+  
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - auth
+      summary: API register
+      description: 'API register'
+      operationId: auth-register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Auth'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  
+  /api/auth/login:
+    post:
+      tags:
+        - auth
+      summary: API login
+      description: 'API login'
+      operationId: auth-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Auth'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+          
+  /api/auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: API refresh
+      description: 'API refresh'
+      operationId: auth-refresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Auth'
+        '401':
+          description: Unauthorized
+          
+  /api/auth/logout:
+    get:
+      tags:
+        - auth
+      summary: API logout
+      description: 'API logout'
+      operationId: auth-logout
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/auth/profile:
+    get:
+      tags:
+        - auth
+      summary: API profile
+      description: 'API profile'
+      operationId: auth-profile
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          
+  /api/users:
+    patch:
+      tags:
+        - user
+      summary: API update user
+      description: 'API update user'
+      operationId: user-update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          
+    delete:
+      tags:
+        - user
+      summary: API delete user
+      description: 'API delete user'
+      operationId: user-delete
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/wallets/connect:
+    patch:
+      tags:
+        - user
+      summary: API connect wallet user
+      description: 'API connect wallet user'
+      operationId: user-connect-wallet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectWalletBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Wallet'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/wallets:
+    get:
+      tags:
+        - user
+      summary: API get wallet user
+      description: 'API get wallet user'
+      operationId: get-wallet-user
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Wallet'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/wallets/claim-token:
+    post:
+      tags:
+        - user
+      summary: API user claim token
+      description: 'API user claim token'
+      operationId: user-claim-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimTokenBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Wallet'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/deposits:
+    get:
+      tags:
+        - dashboard
+      summary: API get lock tokens
+      description: 'API get lock tokens'
+      operationId: get-lock-tokens
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Deposit'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - token-lock
+      summary: API create lock tokens
+      description: 'API create lock tokens'
+      operationId: create-lock-tokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LockTokenBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Deposit'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/deposits/withdraw:
+    post:
+      tags:
+        - token-lock
+      summary: API withdraw tokens
+      description: 'API withdraw tokens'
+      operationId: withdraw-tokens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LockTokenBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Deposit'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/reward-histories:
+    get:
+      tags:
+        - dashboard
+      summary: API get reward histories
+      description: 'API reward histories'
+      operationId: reward-histories-get
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RewardHistory'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  
+  /api/memberships:
+    get:
+      tags:
+        - membership
+      summary: API get memberships
+      description: 'API memberships'
+      operationId: get-memberships
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - membership
+      summary: API register memberships
+      description: 'API register membership'
+      operationId: register-memberships
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterMembershipBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/memberships/{membershipId}:
+    delete:
+      tags:
+        - membership
+      summary: API cancel membership
+      description: 'API cancel membership'
+      operationId: cancel-memberships
+      parameters:
+        - name: membershipId
+          in: path
+          description: ID of membership
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  
+  /api/wallets/{walletId}/buy-rll:
+    post:
+      tags:
+        - buy-rll
+      summary: API buy rll
+      description: 'API buy rll'
+      operationId: buy-rll
+      parameters:
+        - name: walletId
+          in: path
+          description: ID of user
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyRllBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/tickets:
+    post:
+      tags:
+        - ticket
+      summary: API buy ticket
+      description: 'API buy ticket'
+      operationId: buy-ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyTicketBody'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+    get:
+      tags:
+        - lucky-wheel
+      summary: API get ticket
+      description: 'API get ticket'
+      operationId: get-ticket
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/tickets/spin:
+    post:
+      tags:
+        - lucky-wheel
+      summary: API spin
+      description: 'API spin'
+      operationId: spin
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    $ref: '#/components/schemas/RaffleDraw'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/tickets/exchange:
+    post:
+      tags:
+        - lucky-wheel
+      summary: API exchange
+      description: 'API exchange'
+      operationId: exchange
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+  /api/tickets/reward:
+    get:
+      tags:
+        - lucky-wheel
+      summary: API get reward
+      description: 'API get reward'
+      operationId: get-reward
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: string
+                    example: 200
+                  message:
+                    type: string
+                    example: OK
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RaffleDraw'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+
+    RaffleDraw:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        userId:
+          type: integer
+          format: int64
+          example: 10
+        ticketId:
+          type: integer
+          format: int64
+          example: 10
+        score:
+          type: integer
+          format: int64
+          example: 50
+        reward:
+          type: integer
+          format: int64
+          example: 200
+    
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        userId:
+          type: integer
+          format: int64
+          example: 10
+        isActive:
+          type: boolean
+          example: false
+        ticketNumber:
+          type: integer
+          format: int64
+          example: 50
+        price:
+          type: integer
+          format: int64
+          example: 1000
+
+    Membership:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        userId:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: 'Membership #005'
+        price:
+          type: integer
+          format: int64
+          example: 100
+        minted:
+          type: integer
+          format: int64
+          example: 55
+        remained:
+          type: integer
+          format: int64
+          example: 455
+        highest_bid:
+          type: integer
+          format: int64
+          example: 100
+
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        userId:
+          type: integer
+          format: int64
+          example: 10
+        walletAddress:
+          type: string
+          example: '12345xxABCDE'
+        tokens:
+          type: array
+          items:
+             $ref: '#/components/schemas/Token'
+        deposits:
+          type: array
+          items:
+             $ref: '#/components/schemas/Deposit'
+    
+    Token:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        walletId:
+          type: integer
+          format: int64
+          example: 10
+        tokenName:
+          type: string
+          example: Fri Jun 17 2022 11:27:28 GMT+0100 
+        status:
+          type: string
+          example: Live
+        quantity:
+          type: integer
+          example: 14
+        balance:
+          type: integer
+          example: 32000
+
+    RewardHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        userId:
+          type: integer
+          format: int64
+          example: 10
+        date:
+          type: string
+          example: Fri Jun 17 2022 11:27:28 GMT+0100 
+        category:
+          type: string
+          example: RAFFLELL
+        status:
+          type: string
+          example: Live
+        season:
+          type: string
+          example: 12
+        reward:
+          type: integer
+          example: 12000
+
+    Deposit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        walletId:
+          type: integer
+          example: 11
+        tokenId:
+          type: integer
+          example: 11
+        quantity:
+          type: integer
+          example: 12
+        balance:
+          type: integer
+          example: 12000
+  
+    Auth:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        refreshToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMssakjvewn3Jf36POk6yJV_adQssw5c
+  
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        # password:
+        #   type: string
+        #   example: '12345'
+        phone:
+          type: string
+          example: '12345'
+        spin:
+          type: integer
+          format: int64
+          example: 100
+        point:
+          type: integer
+          format: int64
+          example: 1000
+
+    LoginBody:
+      type: object
+      properties:
+        username:
+          type: string
+          example: theUser
+        password:
+          type: string
+          example: '12345'
+
+    RegisterBody:
+      type: object
+      properties:
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+
+    RefreshBody:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMssakjvewn3Jf36POk6yJV_adQssw5c
+ 
+    UpdateUserBody:
+      type: object
+      properties:
+        username:
+          type: integer
+          format: int64
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+
+    ConnectWalletBody:
+      type: object
+      properties:
+        type:
+          type: string
+          example: 'metamask'
+        walletAddress:
+          type: string
+          example: '12345xxABCDE'
+    
+    ClaimTokenBody:
+      type: object
+      properties:
+        walletId:
+          type: integer
+          example: 23
+        token:
+          type: string
+          example: 'RLL'
+        quantity:
+          type: integer
+          example: 200
+  
+    RegisterMembershipBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Membership #005'
+        price:
+          type: integer
+          format: int64
+          example: 100
+        minted:
+          type: integer
+          format: int64
+          example: 55
+        remained:
+          type: integer
+          format: int64
+          example: 455
+        highest_bid:
+          type: integer
+          format: int64
+          example: 100
+  
+    LockTokenBody:
+      type: object
+      properties:
+        tokenId:
+          type: integer
+          format: int64
+          example: 4
+        walletId:
+          type: integer
+          format: int64
+          example: 3
+        quantity:
+          type: integer
+          format: int64
+          example: 55  
+
+    BuyRllBody:
+      type: object
+      properties:
+        swapFrom:
+          type: string
+          example: 'ETH'
+        swapTo:
+          type: string
+          example: 'RLL'
+        blanceFrom:
+          type: integer
+          format: int64
+          example: 55
+        blanceTo:
+          type: integer
+          format: int64
+          example: 455
+
+    BuyTicketBody:
+      type: object
+      properties:
+        ticketNumber:
+          type: integer
+          format: int64
+          example: 55
+        price:
+          type: integer
+          format: int64
+          example: 55
+
+    SpinTicketBody:
+      type: object
+      properties:
+        ticketNumber:
+          type: integer
+          format: int64
+          example: 55
+        price:
+          type: integer
+          format: int64
+          example: 55
+
+  
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
